@@ -1,4 +1,4 @@
-# rev-ui
+# revui
 
 Unstyled UI components for SolidJS. Based on [Base UI](https://base-ui.com/).
 
@@ -13,7 +13,7 @@ Unstyled UI components for SolidJS. Based on [Base UI](https://base-ui.com/).
 ## Usage
 
 ```typescript
-import { ScrollArea } from "rev-ui/scroll-area";
+import { ScrollArea } from "revui/scroll-area";
 ```
 
 ## Notes
