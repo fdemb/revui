@@ -10,7 +10,7 @@ export function useScrollAreaScrollbarContext(): ScrollAreaScrollbarContextValue
   const context = useContext(ScrollAreaScrollbarContext);
   if (context === undefined) {
     throw new Error(
-      "rev-ui: ScrollAreaScrollbarContext is missing. ScrollAreaScrollbar parts must be placed within <ScrollArea.Scrollbar>.",
+      "rigid-ui: ScrollAreaScrollbarContext is missing. ScrollAreaScrollbar parts must be placed within <ScrollArea.Scrollbar>.",
     );
   }
   return context;

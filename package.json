@@ -1,5 +1,5 @@
 {
-  "name": "@fdemb2/ui",
+  "name": "rigid-ui",
   "version": "0.0.1",
   "description": "Unstyled UI components for SolidJS — a port of Base UI",
   "keywords": [
@@ -15,7 +15,7 @@
   "author": "fdemb",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fdemb/rev-ui"
+    "url": "https://github.com/fdemb/rigid-ui"
   },
   "files": [
     "dist"

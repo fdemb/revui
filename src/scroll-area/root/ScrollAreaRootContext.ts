@@ -65,7 +65,7 @@ export const ScrollAreaRootContext = createContext<ScrollAreaRootContextValue>()
 export function useScrollAreaRootContext(): ScrollAreaRootContextValue {
   const context = useContext(ScrollAreaRootContext);
   if (context === undefined) {
-    throw new Error("rev-ui: ScrollArea parts must be placed within <ScrollAreaRoot>.");
+    throw new Error("rigid-ui: ScrollArea parts must be placed within <ScrollAreaRoot>.");
   }
   return context;
 }

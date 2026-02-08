@@ -10,7 +10,7 @@ export function useScrollAreaViewportContext(): ScrollAreaViewportContextValue {
   const context = useContext(ScrollAreaViewportContext);
   if (context === undefined) {
     throw new Error(
-      "rev-ui: ScrollAreaViewportContext missing. ScrollAreaViewport parts must be placed within <ScrollArea.Viewport>.",
+      "rigid-ui: ScrollAreaViewportContext missing. ScrollAreaViewport parts must be placed within <ScrollArea.Viewport>.",
     );
   }
   return context;
