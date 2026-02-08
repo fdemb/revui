@@ -1,37 +1,37 @@
-import { createEffect, onCleanup, Show, splitProps, type JSX, type ParentProps } from 'solid-js';
-import { useScrollAreaRootContext } from '../root/ScrollAreaRootContext';
-import { ScrollAreaScrollbarContext } from './ScrollAreaScrollbarContext';
-import { getOffset } from '../../utils/getOffset';
-import { ScrollAreaRootCssVars } from '../root/ScrollAreaRootCssVars';
-import { ScrollAreaScrollbarCssVars } from './ScrollAreaScrollbarCssVars';
+import { createEffect, onCleanup, Show, splitProps, type JSX, type ParentProps } from "solid-js";
+import { useScrollAreaRootContext } from "../root/ScrollAreaRootContext";
+import { ScrollAreaScrollbarContext } from "./ScrollAreaScrollbarContext";
+import { getOffset } from "../../utils/getOffset";
+import { ScrollAreaRootCssVars } from "../root/ScrollAreaRootCssVars";
+import { ScrollAreaScrollbarCssVars } from "./ScrollAreaScrollbarCssVars";
 
 export interface ScrollAreaScrollbarProps extends ParentProps<JSX.HTMLAttributes<HTMLDivElement>> {
-  orientation?: 'vertical' | 'horizontal';
+  orientation?: "vertical" | "horizontal";
   keepMounted?: boolean;
   ref?: HTMLDivElement | ((el: HTMLDivElement) => void);
 }
 
 export function ScrollAreaScrollbar(props: ScrollAreaScrollbarProps) {
   const [local, others] = splitProps(props, [
-    'children',
-    'orientation',
-    'keepMounted',
-    'ref',
-    'style',
+    "children",
+    "orientation",
+    "keepMounted",
+    "ref",
+    "style",
   ]);
 
-  const orientation = () => local.orientation ?? 'vertical';
+  const orientation = () => local.orientation ?? "vertical";
   const keepMounted = () => local.keepMounted ?? false;
 
   const ctx = useScrollAreaRootContext();
 
   // Direction hardcoded to 'ltr' for now
-  const direction: 'ltr' | 'rtl' = 'ltr';
+  const direction: "ltr" | "rtl" = "ltr";
 
   // Wheel handler on scrollbar
   createEffect(() => {
     const orient = orientation();
-    const scrollbarEl = orient === 'vertical' ? ctx.scrollbarYRef : ctx.scrollbarXRef;
+    const scrollbarEl = orient === "vertical" ? ctx.scrollbarYRef : ctx.scrollbarXRef;
     const viewportEl = ctx.viewportRef;
 
     if (!scrollbarEl) return;
@@ -41,25 +41,27 @@ export function ScrollAreaScrollbar(props: ScrollAreaScrollbarProps) {
 
       event.preventDefault();
 
-      if (orient === 'vertical') {
+      if (orient === "vertical") {
         if (viewportEl.scrollTop === 0 && event.deltaY < 0) return;
         if (
           viewportEl.scrollTop === viewportEl.scrollHeight - viewportEl.clientHeight &&
           event.deltaY > 0
-        ) return;
+        )
+          return;
         viewportEl.scrollTop += event.deltaY;
       } else {
         if (viewportEl.scrollLeft === 0 && event.deltaX < 0) return;
         if (
           viewportEl.scrollLeft === viewportEl.scrollWidth - viewportEl.clientWidth &&
           event.deltaX > 0
-        ) return;
+        )
+          return;
         viewportEl.scrollLeft += event.deltaX;
       }
     }
 
-    scrollbarEl.addEventListener('wheel', handleWheel, { passive: false });
-    onCleanup(() => scrollbarEl.removeEventListener('wheel', handleWheel));
+    scrollbarEl.addEventListener("wheel", handleWheel, { passive: false });
+    onCleanup(() => scrollbarEl.removeEventListener("wheel", handleWheel));
   });
 
   function handleScrollbarPointerDown(event: PointerEvent) {
@@ -71,9 +73,9 @@ export function ScrollAreaScrollbar(props: ScrollAreaScrollbarProps) {
 
     const orient = orientation();
 
-    if (ctx.thumbYRef && ctx.scrollbarYRef && orient === 'vertical') {
-      const thumbYOffset = getOffset(ctx.thumbYRef, 'margin', 'y');
-      const scrollbarYOffset = getOffset(ctx.scrollbarYRef, 'padding', 'y');
+    if (ctx.thumbYRef && ctx.scrollbarYRef && orient === "vertical") {
+      const thumbYOffset = getOffset(ctx.thumbYRef, "margin", "y");
+      const scrollbarYOffset = getOffset(ctx.scrollbarYRef, "padding", "y");
       const thumbHeight = ctx.thumbYRef.offsetHeight;
       const trackRectY = ctx.scrollbarYRef.getBoundingClientRect();
       const clickY =
@@ -87,9 +89,9 @@ export function ScrollAreaScrollbar(props: ScrollAreaScrollbarProps) {
       viewportEl.scrollTop = scrollRatioY * (scrollableContentHeight - viewportHeight);
     }
 
-    if (ctx.thumbXRef && ctx.scrollbarXRef && orient === 'horizontal') {
-      const thumbXOffset = getOffset(ctx.thumbXRef, 'margin', 'x');
-      const scrollbarXOffset = getOffset(ctx.scrollbarXRef, 'padding', 'x');
+    if (ctx.thumbXRef && ctx.scrollbarXRef && orient === "horizontal") {
+      const thumbXOffset = getOffset(ctx.thumbXRef, "margin", "x");
+      const scrollbarXOffset = getOffset(ctx.scrollbarXRef, "padding", "x");
       const thumbWidth = ctx.thumbXRef.offsetWidth;
       const trackRectX = ctx.scrollbarXRef.getBoundingClientRect();
       const clickX =
@@ -102,7 +104,7 @@ export function ScrollAreaScrollbar(props: ScrollAreaScrollbarProps) {
       const scrollRatioX = clickX / maxThumbOffsetX;
 
       let newScrollLeft: number;
-      if (direction === 'rtl') {
+      if (direction === "rtl") {
         newScrollLeft = (1 - scrollRatioX) * (scrollableContentWidth - viewportWidth);
         if (viewportEl.scrollLeft <= 0) {
           newScrollLeft = -newScrollLeft;
@@ -117,32 +119,32 @@ export function ScrollAreaScrollbar(props: ScrollAreaScrollbarProps) {
     ctx.handlePointerDown(event);
   }
 
-  const isHidden = () => orientation() === 'vertical' ? ctx.hiddenState().y : ctx.hiddenState().x;
+  const isHidden = () => (orientation() === "vertical" ? ctx.hiddenState().y : ctx.hiddenState().x);
   const shouldRender = () => keepMounted() || !isHidden();
 
   const mergedStyle = () => {
     const base: JSX.CSSProperties = {
-      position: 'absolute',
-      'touch-action': 'none',
-      '-webkit-user-select': 'none',
-      'user-select': 'none',
+      position: "absolute",
+      "touch-action": "none",
+      "-webkit-user-select": "none",
+      "user-select": "none",
     };
-    if (orientation() === 'vertical') {
+    if (orientation() === "vertical") {
       Object.assign(base, {
-        top: '0',
+        top: "0",
         bottom: `var(${ScrollAreaRootCssVars.scrollAreaCornerHeight})`,
-        'inset-inline-end': '0',
+        "inset-inline-end": "0",
         [ScrollAreaScrollbarCssVars.scrollAreaThumbHeight]: `${ctx.thumbSize().height}px`,
       });
     } else {
       Object.assign(base, {
-        'inset-inline-start': '0',
-        'inset-inline-end': `var(${ScrollAreaRootCssVars.scrollAreaCornerWidth})`,
-        bottom: '0',
+        "inset-inline-start": "0",
+        "inset-inline-end": `var(${ScrollAreaRootCssVars.scrollAreaCornerWidth})`,
+        bottom: "0",
         [ScrollAreaScrollbarCssVars.scrollAreaThumbWidth]: `${ctx.thumbSize().width}px`,
       });
     }
-    if (typeof local.style === 'object' && local.style) {
+    if (typeof local.style === "object" && local.style) {
       return { ...base, ...local.style };
     }
     return base;
@@ -153,16 +155,16 @@ export function ScrollAreaScrollbar(props: ScrollAreaScrollbarProps) {
       <ScrollAreaScrollbarContext.Provider value={{ orientation: orientation() }}>
         <div
           ref={(el) => {
-            if (orientation() === 'vertical') {
+            if (orientation() === "vertical") {
               ctx.scrollbarYRef = el;
             } else {
               ctx.scrollbarXRef = el;
             }
-            if (typeof local.ref === 'function') local.ref(el);
+            if (typeof local.ref === "function") local.ref(el);
           }}
           data-orientation={orientation()}
-          data-hovering={ctx.hovering() ? '' : undefined}
-          data-scrolling={(ctx.scrollingX() || ctx.scrollingY()) ? '' : undefined}
+          data-hovering={ctx.hovering() ? "" : undefined}
+          data-scrolling={ctx.scrollingX() || ctx.scrollingY() ? "" : undefined}
           onPointerDown={handleScrollbarPointerDown}
           onPointerUp={(e) => ctx.handlePointerUp(e)}
           style={mergedStyle()}

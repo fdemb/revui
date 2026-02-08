@@ -1,14 +1,14 @@
-import { createEffect, onMount, onCleanup, splitProps, type JSX, type ParentProps } from 'solid-js';
-import { isWebKit } from '../../utils/detectBrowser';
-import { useScrollAreaRootContext } from '../root/ScrollAreaRootContext';
-import { ScrollAreaViewportContext } from './ScrollAreaViewportContext';
-import { getOffset } from '../../utils/getOffset';
-import { MIN_THUMB_SIZE } from '../constants';
-import { clamp } from '../../utils/clamp';
-import { styleDisableScrollbar } from '../../utils/styles';
-import { onVisible } from '../../utils/onVisible';
-import { ScrollAreaViewportCssVars } from './ScrollAreaViewportCssVars';
-import { Timeout } from '../../utils/useTimeout';
+import { createEffect, onMount, onCleanup, splitProps, type JSX, type ParentProps } from "solid-js";
+import { isWebKit } from "../../utils/detectBrowser";
+import { useScrollAreaRootContext } from "../root/ScrollAreaRootContext";
+import { ScrollAreaViewportContext } from "./ScrollAreaViewportContext";
+import { getOffset } from "../../utils/getOffset";
+import { MIN_THUMB_SIZE } from "../constants";
+import { clamp } from "../../utils/clamp";
+import { styleDisableScrollbar } from "../../utils/styles";
+import { onVisible } from "../../utils/onVisible";
+import { ScrollAreaViewportCssVars } from "./ScrollAreaViewportCssVars";
+import { Timeout } from "../../utils/useTimeout";
 
 let scrollAreaOverflowVarsRegistered = false;
 
@@ -17,7 +17,7 @@ function removeCSSVariableInheritance() {
     return;
   }
 
-  if (typeof CSS !== 'undefined' && 'registerProperty' in CSS) {
+  if (typeof CSS !== "undefined" && "registerProperty" in CSS) {
     [
       ScrollAreaViewportCssVars.scrollAreaOverflowXStart,
       ScrollAreaViewportCssVars.scrollAreaOverflowXEnd,
@@ -27,9 +27,9 @@ function removeCSSVariableInheritance() {
       try {
         CSS.registerProperty({
           name,
-          syntax: '<length>',
+          syntax: "<length>",
           inherits: false,
-          initialValue: '0px',
+          initialValue: "0px",
         });
       } catch {
         /* ignore already-registered */
@@ -45,7 +45,7 @@ export interface ScrollAreaViewportProps extends ParentProps<JSX.HTMLAttributes<
 }
 
 export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
-  const [local, others] = splitProps(props, ['children', 'ref', 'class', 'style']);
+  const [local, others] = splitProps(props, ["children", "ref", "class", "style"]);
 
   const ctx = useScrollAreaRootContext();
 
@@ -58,7 +58,7 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
   });
 
   // Direction hardcoded to 'ltr' for now
-  const direction: 'ltr' | 'rtl' = 'ltr';
+  const direction: "ltr" | "rtl" = "ltr";
 
   function computeThumbPosition() {
     const viewportEl = ctx.viewportRef;
@@ -89,7 +89,7 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
     let scrollLeftFromStart = 0;
     let scrollLeftFromEnd = 0;
     if (!scrollbarXHidden) {
-      if (direction === 'rtl') {
+      if (direction === "rtl") {
         scrollLeftFromStart = clamp(-scrollLeft, 0, maxScrollLeft);
       } else {
         scrollLeftFromStart = clamp(scrollLeft, 0, maxScrollLeft);
@@ -114,10 +114,10 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
     const cornerWidthOffset = cornerNotYetSized ? nextCornerWidth : 0;
     const cornerHeightOffset = cornerNotYetSized ? nextCornerHeight : 0;
 
-    const scrollbarXOffset = getOffset(scrollbarXEl ?? null, 'padding', 'x');
-    const scrollbarYOffset = getOffset(scrollbarYEl ?? null, 'padding', 'y');
-    const thumbXOffset = getOffset(thumbXEl ?? null, 'margin', 'x');
-    const thumbYOffset = getOffset(thumbYEl ?? null, 'margin', 'y');
+    const scrollbarXOffset = getOffset(scrollbarXEl ?? null, "padding", "x");
+    const scrollbarYOffset = getOffset(scrollbarYEl ?? null, "padding", "y");
+    const thumbXOffset = getOffset(thumbXEl ?? null, "margin", "x");
+    const thumbYOffset = getOffset(thumbYEl ?? null, "margin", "y");
 
     const idealNextWidth = nextWidth - scrollbarXOffset - thumbXOffset;
     const idealNextHeight = nextHeight - scrollbarYOffset - thumbYOffset;
@@ -156,7 +156,7 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
       const scrollRangeX = scrollableContentWidth - viewportWidth;
       const scrollRatioX = scrollRangeX === 0 ? 0 : scrollLeft / scrollRangeX;
       const thumbOffsetX =
-        direction === 'rtl'
+        direction === "rtl"
           ? clamp(scrollRatioX * maxThumbOffsetX, -maxThumbOffsetX, 0)
           : clamp(scrollRatioX * maxThumbOffsetX, 0, maxThumbOffsetX);
       thumbXEl.style.transform = `translate3d(${thumbOffsetX}px,0,0)`;
@@ -225,7 +225,7 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
     removeCSSVariableInheritance();
 
     // Check if viewport is already hovered
-    if (viewportEl.matches(':hover')) {
+    if (viewportEl.matches(":hover")) {
       ctx.setHovering(true);
     }
 
@@ -244,7 +244,7 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
     onCleanup(cleanupVisible);
 
     // ResizeObserver on viewport
-    if (typeof ResizeObserver !== 'undefined') {
+    if (typeof ResizeObserver !== "undefined") {
       let roInitialized = false;
       const ro = new ResizeObserver(() => {
         if (!roInitialized) {
@@ -288,10 +288,10 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
 
   const mergedStyle = () => {
     const base: JSX.CSSProperties = {
-      overflow: 'scroll',
-      height: '100%',
+      overflow: "scroll",
+      height: "100%",
     };
-    if (typeof local.style === 'object' && local.style) {
+    if (typeof local.style === "object" && local.style) {
       return { ...base, ...local.style };
     }
     return base;
@@ -302,10 +302,10 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
       <div
         ref={(el) => {
           ctx.viewportRef = el;
-          if (typeof local.ref === 'function') local.ref(el);
+          if (typeof local.ref === "function") local.ref(el);
         }}
         role="presentation"
-        tabIndex={(!hs().x || !hs().y) ? 0 : undefined}
+        tabIndex={!hs().x || !hs().y ? 0 : undefined}
         class={mergedClass()}
         onScroll={() => {
           const viewportEl = ctx.viewportRef;
@@ -330,13 +330,13 @@ export function ScrollAreaViewport(props: ScrollAreaViewportProps) {
         onPointerEnter={handleUserInteraction}
         onKeyDown={handleUserInteraction}
         style={mergedStyle()}
-        data-scrolling={(ctx.scrollingX() || ctx.scrollingY()) ? '' : undefined}
-        data-has-overflow-x={!ctx.hiddenState().x ? '' : undefined}
-        data-has-overflow-y={!ctx.hiddenState().y ? '' : undefined}
-        data-overflow-x-start={ctx.overflowEdges().xStart ? '' : undefined}
-        data-overflow-x-end={ctx.overflowEdges().xEnd ? '' : undefined}
-        data-overflow-y-start={ctx.overflowEdges().yStart ? '' : undefined}
-        data-overflow-y-end={ctx.overflowEdges().yEnd ? '' : undefined}
+        data-scrolling={ctx.scrollingX() || ctx.scrollingY() ? "" : undefined}
+        data-has-overflow-x={!ctx.hiddenState().x ? "" : undefined}
+        data-has-overflow-y={!ctx.hiddenState().y ? "" : undefined}
+        data-overflow-x-start={ctx.overflowEdges().xStart ? "" : undefined}
+        data-overflow-x-end={ctx.overflowEdges().xEnd ? "" : undefined}
+        data-overflow-y-start={ctx.overflowEdges().yStart ? "" : undefined}
+        data-overflow-y-end={ctx.overflowEdges().yEnd ? "" : undefined}
         {...others}
       >
         {local.children}

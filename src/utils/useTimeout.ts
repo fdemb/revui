@@ -1,4 +1,4 @@
-import { onCleanup } from 'solid-js';
+import { onCleanup } from "solid-js";
 
 export class Timeout {
   private id: ReturnType<typeof setTimeout> | null = null;

@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'solid-js';
+import { createContext, useContext } from "solid-js";
 
 export interface ScrollAreaViewportContextValue {
   computeThumbPosition: () => void;
@@ -10,7 +10,7 @@ export function useScrollAreaViewportContext(): ScrollAreaViewportContextValue {
   const context = useContext(ScrollAreaViewportContext);
   if (context === undefined) {
     throw new Error(
-      'rev-ui: ScrollAreaViewportContext missing. ScrollAreaViewport parts must be placed within <ScrollArea.Viewport>.',
+      "rev-ui: ScrollAreaViewportContext missing. ScrollAreaViewport parts must be placed within <ScrollArea.Viewport>.",
     );
   }
   return context;

@@ -1,13 +1,13 @@
-import { onMount, onCleanup, splitProps, type JSX, type ParentProps } from 'solid-js';
-import { useScrollAreaViewportContext } from '../viewport/ScrollAreaViewportContext';
-import { useScrollAreaRootContext } from '../root/ScrollAreaRootContext';
+import { onMount, onCleanup, splitProps, type JSX, type ParentProps } from "solid-js";
+import { useScrollAreaViewportContext } from "../viewport/ScrollAreaViewportContext";
+import { useScrollAreaRootContext } from "../root/ScrollAreaRootContext";
 
 export interface ScrollAreaContentProps extends ParentProps<JSX.HTMLAttributes<HTMLDivElement>> {
   ref?: HTMLDivElement | ((el: HTMLDivElement) => void);
 }
 
 export function ScrollAreaContent(props: ScrollAreaContentProps) {
-  const [local, others] = splitProps(props, ['children', 'ref', 'style']);
+  const [local, others] = splitProps(props, ["children", "ref", "style"]);
 
   const { computeThumbPosition } = useScrollAreaViewportContext();
   const ctx = useScrollAreaRootContext();
@@ -15,7 +15,7 @@ export function ScrollAreaContent(props: ScrollAreaContentProps) {
   let contentRef: HTMLDivElement | undefined;
 
   onMount(() => {
-    if (typeof ResizeObserver === 'undefined' || !contentRef) return;
+    if (typeof ResizeObserver === "undefined" || !contentRef) return;
 
     let hasInitialized = false;
     const ro = new ResizeObserver(() => {
@@ -31,8 +31,8 @@ export function ScrollAreaContent(props: ScrollAreaContentProps) {
   });
 
   const mergedStyle = () => {
-    const base: JSX.CSSProperties = { 'min-width': 'fit-content' };
-    if (typeof local.style === 'object' && local.style) {
+    const base: JSX.CSSProperties = { "min-width": "fit-content" };
+    if (typeof local.style === "object" && local.style) {
       return { ...base, ...local.style };
     }
     return base;
@@ -42,17 +42,17 @@ export function ScrollAreaContent(props: ScrollAreaContentProps) {
     <div
       ref={(el) => {
         contentRef = el;
-        if (typeof local.ref === 'function') local.ref(el);
+        if (typeof local.ref === "function") local.ref(el);
       }}
       role="presentation"
       style={mergedStyle()}
-      data-scrolling={(ctx.scrollingX() || ctx.scrollingY()) ? '' : undefined}
-      data-has-overflow-x={!ctx.hiddenState().x ? '' : undefined}
-      data-has-overflow-y={!ctx.hiddenState().y ? '' : undefined}
-      data-overflow-x-start={ctx.overflowEdges().xStart ? '' : undefined}
-      data-overflow-x-end={ctx.overflowEdges().xEnd ? '' : undefined}
-      data-overflow-y-start={ctx.overflowEdges().yStart ? '' : undefined}
-      data-overflow-y-end={ctx.overflowEdges().yEnd ? '' : undefined}
+      data-scrolling={ctx.scrollingX() || ctx.scrollingY() ? "" : undefined}
+      data-has-overflow-x={!ctx.hiddenState().x ? "" : undefined}
+      data-has-overflow-y={!ctx.hiddenState().y ? "" : undefined}
+      data-overflow-x-start={ctx.overflowEdges().xStart ? "" : undefined}
+      data-overflow-x-end={ctx.overflowEdges().xEnd ? "" : undefined}
+      data-overflow-y-start={ctx.overflowEdges().yStart ? "" : undefined}
+      data-overflow-y-end={ctx.overflowEdges().yEnd ? "" : undefined}
       {...others}
     >
       {local.children}

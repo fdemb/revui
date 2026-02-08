@@ -1,25 +1,25 @@
-import {
-  createSignal,
-  splitProps,
-  type JSX,
-  type ParentProps,
-} from 'solid-js';
+import { createSignal, splitProps, type JSX, type ParentProps } from "solid-js";
 import {
   ScrollAreaRootContext,
   type Coords,
   type HiddenState,
   type OverflowEdges,
   type Size,
-} from './ScrollAreaRootContext';
-import { ScrollAreaRootCssVars } from './ScrollAreaRootCssVars';
-import { SCROLL_TIMEOUT } from '../constants';
-import { getOffset } from '../../utils/getOffset';
-import { styleDisableScrollbar } from '../../utils/styles';
-import { contains } from '../../utils/contains';
-import { useTimeout } from '../../utils/useTimeout';
+} from "./ScrollAreaRootContext";
+import { ScrollAreaRootCssVars } from "./ScrollAreaRootCssVars";
+import { SCROLL_TIMEOUT } from "../constants";
+import { getOffset } from "../../utils/getOffset";
+import { styleDisableScrollbar } from "../../utils/styles";
+import { contains } from "../../utils/contains";
+import { useTimeout } from "../../utils/useTimeout";
 
 const DEFAULT_SIZE: Size = { width: 0, height: 0 };
-const DEFAULT_OVERFLOW_EDGES: OverflowEdges = { xStart: false, xEnd: false, yStart: false, yEnd: false };
+const DEFAULT_OVERFLOW_EDGES: OverflowEdges = {
+  xStart: false,
+  xEnd: false,
+  yStart: false,
+  yEnd: false,
+};
 const DEFAULT_HIDDEN_STATE: HiddenState = { x: false, y: false, corner: false };
 
 export interface ScrollAreaRootProps extends ParentProps<JSX.HTMLAttributes<HTMLDivElement>> {
@@ -35,9 +35,9 @@ export interface ScrollAreaRootProps extends ParentProps<JSX.HTMLAttributes<HTML
 }
 
 function normalizeOverflowEdgeThreshold(
-  threshold: ScrollAreaRootProps['overflowEdgeThreshold'] | undefined,
+  threshold: ScrollAreaRootProps["overflowEdgeThreshold"] | undefined,
 ) {
-  if (typeof threshold === 'number') {
+  if (typeof threshold === "number") {
     const value = Math.max(0, threshold);
     return { xStart: value, xEnd: value, yStart: value, yEnd: value };
   }
@@ -50,12 +50,7 @@ function normalizeOverflowEdgeThreshold(
 }
 
 export function ScrollAreaRoot(props: ScrollAreaRootProps) {
-  const [local, others] = splitProps(props, [
-    'children',
-    'overflowEdgeThreshold',
-    'ref',
-    'style',
-  ]);
+  const [local, others] = splitProps(props, ["children", "overflowEdgeThreshold", "ref", "style"]);
 
   const overflowEdgeThreshold = normalizeOverflowEdgeThreshold(local.overflowEdgeThreshold);
 
@@ -79,7 +74,7 @@ export function ScrollAreaRoot(props: ScrollAreaRootProps) {
   let startX = 0;
   let startScrollTop = 0;
   let startScrollLeft = 0;
-  let currentOrientation: 'vertical' | 'horizontal' = 'vertical';
+  let currentOrientation: "vertical" | "horizontal" = "vertical";
 
   styleDisableScrollbar.inject();
 
@@ -114,17 +109,18 @@ export function ScrollAreaRoot(props: ScrollAreaRootProps) {
     thumbDragging = true;
     startY = event.clientY;
     startX = event.clientX;
-    currentOrientation = (event.currentTarget as HTMLElement)
-      .getAttribute('data-orientation') as 'vertical' | 'horizontal';
+    currentOrientation = (event.currentTarget as HTMLElement).getAttribute("data-orientation") as
+      | "vertical"
+      | "horizontal";
 
     if (refs.viewportRef) {
       startScrollTop = refs.viewportRef.scrollTop;
       startScrollLeft = refs.viewportRef.scrollLeft;
     }
-    if (refs.thumbYRef && currentOrientation === 'vertical') {
+    if (refs.thumbYRef && currentOrientation === "vertical") {
       refs.thumbYRef.setPointerCapture(event.pointerId);
     }
-    if (refs.thumbXRef && currentOrientation === 'horizontal') {
+    if (refs.thumbXRef && currentOrientation === "horizontal") {
       refs.thumbXRef.setPointerCapture(event.pointerId);
     }
   }
@@ -142,9 +138,9 @@ export function ScrollAreaRoot(props: ScrollAreaRootProps) {
     const scrollableW = vp.scrollWidth;
     const vpW = vp.clientWidth;
 
-    if (refs.thumbYRef && refs.scrollbarYRef && currentOrientation === 'vertical') {
-      const sbOffset = getOffset(refs.scrollbarYRef, 'padding', 'y');
-      const thOffset = getOffset(refs.thumbYRef, 'margin', 'y');
+    if (refs.thumbYRef && refs.scrollbarYRef && currentOrientation === "vertical") {
+      const sbOffset = getOffset(refs.scrollbarYRef, "padding", "y");
+      const thOffset = getOffset(refs.thumbYRef, "margin", "y");
       const thH = refs.thumbYRef.offsetHeight;
       const maxOffset = refs.scrollbarYRef.offsetHeight - thH - sbOffset - thOffset;
       vp.scrollTop = startScrollTop + (deltaY / maxOffset) * (scrollableH - vpH);
@@ -153,9 +149,9 @@ export function ScrollAreaRoot(props: ScrollAreaRootProps) {
       scrollYTimeout.start(SCROLL_TIMEOUT, () => setScrollingY(false));
     }
 
-    if (refs.thumbXRef && refs.scrollbarXRef && currentOrientation === 'horizontal') {
-      const sbOffset = getOffset(refs.scrollbarXRef, 'padding', 'x');
-      const thOffset = getOffset(refs.thumbXRef, 'margin', 'x');
+    if (refs.thumbXRef && refs.scrollbarXRef && currentOrientation === "horizontal") {
+      const sbOffset = getOffset(refs.scrollbarXRef, "padding", "x");
+      const thOffset = getOffset(refs.thumbXRef, "margin", "x");
       const thW = refs.thumbXRef.offsetWidth;
       const maxOffset = refs.scrollbarXRef.offsetWidth - thW - sbOffset - thOffset;
       vp.scrollLeft = startScrollLeft + (deltaX / maxOffset) * (scrollableW - vpW);
@@ -167,16 +163,16 @@ export function ScrollAreaRoot(props: ScrollAreaRootProps) {
 
   function handlePointerUp(event: PointerEvent) {
     thumbDragging = false;
-    if (refs.thumbYRef && currentOrientation === 'vertical') {
+    if (refs.thumbYRef && currentOrientation === "vertical") {
       refs.thumbYRef.releasePointerCapture(event.pointerId);
     }
-    if (refs.thumbXRef && currentOrientation === 'horizontal') {
+    if (refs.thumbXRef && currentOrientation === "horizontal") {
       refs.thumbXRef.releasePointerCapture(event.pointerId);
     }
   }
 
   function handlePointerEnterOrMove(event: PointerEvent) {
-    if (event.pointerType !== 'touch') {
+    if (event.pointerType !== "touch") {
       setHovering(contains(rootRef, event.target as Element));
     }
   }
@@ -199,18 +195,42 @@ export function ScrollAreaRoot(props: ScrollAreaRootProps) {
     overflowEdgeThreshold,
 
     // Refs are read/written directly by child components
-    get viewportRef() { return refs.viewportRef; },
-    set viewportRef(el) { refs.viewportRef = el; },
-    get scrollbarYRef() { return refs.scrollbarYRef; },
-    set scrollbarYRef(el) { refs.scrollbarYRef = el; },
-    get scrollbarXRef() { return refs.scrollbarXRef; },
-    set scrollbarXRef(el) { refs.scrollbarXRef = el; },
-    get thumbYRef() { return refs.thumbYRef; },
-    set thumbYRef(el) { refs.thumbYRef = el; },
-    get thumbXRef() { return refs.thumbXRef; },
-    set thumbXRef(el) { refs.thumbXRef = el; },
-    get cornerRef() { return refs.cornerRef; },
-    set cornerRef(el) { refs.cornerRef = el; },
+    get viewportRef() {
+      return refs.viewportRef;
+    },
+    set viewportRef(el) {
+      refs.viewportRef = el;
+    },
+    get scrollbarYRef() {
+      return refs.scrollbarYRef;
+    },
+    set scrollbarYRef(el) {
+      refs.scrollbarYRef = el;
+    },
+    get scrollbarXRef() {
+      return refs.scrollbarXRef;
+    },
+    set scrollbarXRef(el) {
+      refs.scrollbarXRef = el;
+    },
+    get thumbYRef() {
+      return refs.thumbYRef;
+    },
+    set thumbYRef(el) {
+      refs.thumbYRef = el;
+    },
+    get thumbXRef() {
+      return refs.thumbXRef;
+    },
+    set thumbXRef(el) {
+      refs.thumbXRef = el;
+    },
+    get cornerRef() {
+      return refs.cornerRef;
+    },
+    set cornerRef(el) {
+      refs.cornerRef = el;
+    },
 
     handlePointerDown,
     handlePointerMove,
@@ -220,12 +240,12 @@ export function ScrollAreaRoot(props: ScrollAreaRootProps) {
 
   const mergedStyle = () => {
     const base: JSX.CSSProperties = {
-      position: 'relative',
-      overflow: 'hidden',
+      position: "relative",
+      overflow: "hidden",
       [ScrollAreaRootCssVars.scrollAreaCornerHeight]: `${cornerSize().height}px`,
       [ScrollAreaRootCssVars.scrollAreaCornerWidth]: `${cornerSize().width}px`,
     };
-    if (typeof local.style === 'object' && local.style) {
+    if (typeof local.style === "object" && local.style) {
       return { ...base, ...local.style };
     }
     return base;
@@ -236,20 +256,20 @@ export function ScrollAreaRoot(props: ScrollAreaRootProps) {
       <div
         ref={(el) => {
           rootRef = el;
-          if (typeof local.ref === 'function') local.ref(el);
+          if (typeof local.ref === "function") local.ref(el);
         }}
         role="presentation"
         onPointerEnter={handlePointerEnterOrMove}
         onPointerMove={handlePointerEnterOrMove}
         onPointerLeave={() => setHovering(false)}
         style={mergedStyle()}
-        data-scrolling={(scrollingX() || scrollingY()) ? '' : undefined}
-        data-has-overflow-x={!hiddenState().x ? '' : undefined}
-        data-has-overflow-y={!hiddenState().y ? '' : undefined}
-        data-overflow-x-start={overflowEdges().xStart ? '' : undefined}
-        data-overflow-x-end={overflowEdges().xEnd ? '' : undefined}
-        data-overflow-y-start={overflowEdges().yStart ? '' : undefined}
-        data-overflow-y-end={overflowEdges().yEnd ? '' : undefined}
+        data-scrolling={scrollingX() || scrollingY() ? "" : undefined}
+        data-has-overflow-x={!hiddenState().x ? "" : undefined}
+        data-has-overflow-y={!hiddenState().y ? "" : undefined}
+        data-overflow-x-start={overflowEdges().xStart ? "" : undefined}
+        data-overflow-x-end={overflowEdges().xEnd ? "" : undefined}
+        data-overflow-y-start={overflowEdges().yStart ? "" : undefined}
+        data-overflow-y-end={overflowEdges().yEnd ? "" : undefined}
         {...others}
       >
         {local.children}

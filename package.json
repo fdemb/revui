@@ -2,43 +2,45 @@
   "name": "rev-ui",
   "version": "0.0.1",
   "description": "Unstyled UI components for SolidJS — a port of Base UI",
-  "type": "module",
+  "keywords": [
+    "components",
+    "headless",
+    "scroll-area",
+    "solid",
+    "solidjs",
+    "ui",
+    "unstyled"
+  ],
   "license": "MIT",
   "author": "fdemb",
   "repository": {
     "type": "git",
     "url": "https://github.com/fdemb/rev-ui"
   },
-  "keywords": [
-    "solid",
-    "solidjs",
-    "ui",
-    "components",
-    "headless",
-    "unstyled",
-    "scroll-area"
-  ],
   "files": [
     "dist"
   ],
+  "type": "module",
   "exports": {
     "./scroll-area": {
-      "import": "./dist/scroll-area/index.js",
-      "types": "./dist/scroll-area/index.d.ts"
+      "types": "./dist/scroll-area/index.d.ts",
+      "import": "./dist/scroll-area/index.js"
     }
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsup"
+    "build": "tsup",
+    "format": "oxfmt ."
+  },
+  "devDependencies": {
+    "oxfmt": "^0.28.0",
+    "solid-js": "^1.9.11",
+    "tsup": "^8.4.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-solid": "^2.11.10"
   },
   "peerDependencies": {
     "solid-js": "^1.9.0"
-  },
-  "devDependencies": {
-    "solid-js": "^1.9.11",
-    "tsup": "^8.4.0",
-"typescript": "^5.9.3",
-    "vite": "^7.3.1",
-    "vite-plugin-solid": "^2.11.10"
   }
 }

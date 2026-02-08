@@ -2,7 +2,7 @@
  * Executes a callback when an element becomes visible.
  */
 export function onVisible(element: HTMLElement, callback: () => void) {
-  if (typeof IntersectionObserver === 'undefined') {
+  if (typeof IntersectionObserver === "undefined") {
     return () => {};
   }
 

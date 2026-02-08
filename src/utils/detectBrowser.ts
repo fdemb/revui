@@ -1,4 +1,4 @@
 export const isWebKit =
-  typeof CSS === 'undefined' || !CSS.supports
+  typeof CSS === "undefined" || !CSS.supports
     ? false
-    : CSS.supports('-webkit-backdrop-filter:none');
+    : CSS.supports("-webkit-backdrop-filter:none");

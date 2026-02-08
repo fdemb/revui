@@ -1,5 +1,5 @@
-import { createContext, useContext } from 'solid-js';
-import type { Accessor, Setter } from 'solid-js';
+import { createContext, useContext } from "solid-js";
+import type { Accessor, Setter } from "solid-js";
 
 export interface Coords {
   x: number;
@@ -65,9 +65,7 @@ export const ScrollAreaRootContext = createContext<ScrollAreaRootContextValue>()
 export function useScrollAreaRootContext(): ScrollAreaRootContextValue {
   const context = useContext(ScrollAreaRootContext);
   if (context === undefined) {
-    throw new Error(
-      'rev-ui: ScrollArea parts must be placed within <ScrollAreaRoot>.',
-    );
+    throw new Error("rev-ui: ScrollArea parts must be placed within <ScrollAreaRoot>.");
   }
   return context;
 }
