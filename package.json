@@ -3,10 +3,12 @@
   "version": "0.0.2",
   "description": "Unstyled UI components for SolidJS — a port of Base UI",
   "keywords": [
+    "component-library",
     "components",
     "headless",
     "scroll-area",
     "solid",
+    "solid-components",
     "solidjs",
     "ui",
     "unstyled"
