@@ -1,5 +1,5 @@
 {
-  "name": "revui",
+  "name": "@fdemb2/ui",
   "version": "0.0.1",
   "description": "Unstyled UI components for SolidJS — a port of Base UI",
   "keywords": [
