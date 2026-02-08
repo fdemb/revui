@@ -1,14 +1,14 @@
+import solid from "rolldown-plugin-solid";
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: {
     "scroll-area/index": "src/scroll-area/index.ts",
   },
-  format: "esm",
-  target: "esnext",
+  platform: "neutral",
   outDir: "dist",
   dts: true,
   clean: true,
   treeshake: true,
-  external: ["solid-js", "solid-js/web"],
+  plugins: [solid()],
 });

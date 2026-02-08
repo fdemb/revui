@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "oxfmt": "^0.28.0",
+    "rolldown-plugin-solid": "^0.2.1",
     "solid-js": "^1.9.11",
     "tsdown": "^0.20.3",
     "typescript": "^5.9.3",
@@ -44,6 +45,6 @@
     "vite-plugin-solid": "^2.11.10"
   },
   "peerDependencies": {
-    "solid-js": "^1.9.0"
+    "solid-js": "^1.9.11"
   }
 }
